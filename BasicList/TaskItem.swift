@@ -53,16 +53,16 @@ enum TaskPriority: String, Codable, CaseIterable{
     
     var icon: String{
         switch self {
-        case .low: return "arrow.down.circle"
-        case .normal: return "minus.circle"
-        case .high: return "arrow.up.circle"
+        case .low: return "arrow.down.square.fill"
+        case .normal: return "minus.square.fill"
+        case .high: return "arrow.up.square.fill"
         }
     }
     
     var color: Color {
         switch self {
-        case .low: return .blue
-        case .normal: return .gray
+        case .low: return .green
+        case .normal: return .orange
         case .high: return .red
         }
     }

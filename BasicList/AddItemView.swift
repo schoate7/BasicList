@@ -17,6 +17,8 @@ struct AddItemView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
     
+    @Binding var taskList: [TaskItem]
+    
     //TaskItem properties
     @State private var newTaskItem: TaskItem
     @State private var title: String = ""
@@ -30,9 +32,10 @@ struct AddItemView: View {
     @State private var showDatePicker: Bool = false
     @State private var isDocumentPickerPresented: Bool = false
     
-    init(index: Int){
+    init(index: Int, taskList: Binding<[TaskItem]>){
         self.orderIndex = index
         self.newTaskItem = TaskItem(createdDate: Date(), taskTitle: "", taskDetails: "", orderIndex: -1, taskPriority: .normal)
+        self._taskList = taskList
     }
     
     private var dateFormatter: DateFormatter {
@@ -159,9 +162,10 @@ struct AddItemView: View {
     }
             
     private func saveTaskItem() {
+        let maxOrder = taskList.map(\.orderIndex).max() ?? 0
         newTaskItem.taskTitle = title
         newTaskItem.taskDetails = details
-        newTaskItem.orderIndex = orderIndex
+        newTaskItem.orderIndex = maxOrder + 1
         newTaskItem.priorityRating = priorityRating
         newTaskItem.dueDate = (showDatePicker ? dueDate : nil)
         
